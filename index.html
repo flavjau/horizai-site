@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HorizAI — Support Client IA pour E-commerce</title>
-    <meta name="description" content="Réponse instantanée 24/7 à tous vos clients. Agent IA qui gère votre support client e-commerce avec un taux de satisfaction supérieur à votre équipe actuelle.">
+    <title>HorizAI — Automatisation de Propositions Commerciales par IA</title>
+    <meta name="description" content="Générez vos propositions commerciales en moins d'une heure au lieu de 5. IA sur mesure intégrée à vos outils. Agences, PME, sociétés de services.">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         :root {
-            --navy: #1a2e4a;
-            --blue: #2d5a7b;
-            --accent: #4a9bbe;
-            --light-blue: #e8f4f8;
+            --navy: #0f172a;
+            --blue: #1e3a5f;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --light-blue: #eff6ff;
             --white: #ffffff;
-            --gray: #6b7280;
+            --gray: #64748b;
             --light-gray: #f8fafc;
             --text: #1e293b;
+            --green: #22c55e;
+            --red: #ef4444;
+            --orange: #f59e0b;
         }
 
         body {
@@ -34,26 +38,33 @@
             top: 0;
             width: 100%;
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(26,46,74,0.08);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(15,23,42,0.06);
             z-index: 100;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        nav img { height: 36px; }
-        nav a {
-            background: var(--navy);
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo img { height: 32px; }
+        .nav-logo span { font-weight: 700; font-size: 1.1rem; color: var(--navy); }
+        nav a.nav-cta {
+            background: var(--accent);
             color: white;
             padding: 0.6rem 1.5rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
-        nav a:hover { background: var(--blue); }
+        nav a.nav-cta:hover { background: #2563eb; transform: translateY(-1px); }
 
         /* HERO */
         .hero {
@@ -63,14 +74,24 @@
             justify-content: center;
             text-align: center;
             padding: 8rem 2rem 4rem;
-            background: linear-gradient(160deg, var(--white) 0%, var(--light-blue) 100%);
+            background: linear-gradient(160deg, var(--white) 0%, var(--light-blue) 50%, #dbeafe 100%);
+            position: relative;
         }
-        .hero-content { max-width: 800px; }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, var(--white));
+        }
+        .hero-content { max-width: 850px; position: relative; z-index: 1; }
         .badge {
             display: inline-block;
             background: var(--navy);
-            color: var(--accent);
-            padding: 0.4rem 1rem;
+            color: var(--accent-light);
+            padding: 0.4rem 1.2rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
@@ -79,7 +100,7 @@
         h1 {
             font-size: clamp(2.2rem, 5vw, 3.5rem);
             font-weight: 800;
-            line-height: 1.15;
+            line-height: 1.12;
             color: var(--navy);
             margin-bottom: 1.5rem;
         }
@@ -87,8 +108,26 @@
         .hero p {
             font-size: 1.2rem;
             color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat .num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .hero-stat .label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
         }
         .cta-button {
             display: inline-block;
@@ -100,11 +139,12 @@
             font-weight: 700;
             font-size: 1.1rem;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(74,155,190,0.3);
+            box-shadow: 0 4px 20px rgba(59,130,246,0.3);
         }
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(74,155,190,0.4);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.4);
+            background: #2563eb;
         }
         .cta-sub {
             display: block;
@@ -113,74 +153,259 @@
             color: var(--gray);
         }
 
-        /* PROBLÈME */
-        .problem {
-            padding: 5rem 2rem;
-            background: var(--white);
-        }
-        .container { max-width: 1000px; margin: 0 auto; }
+        /* SECTIONS */
+        .container { max-width: 1080px; margin: 0 auto; }
         .section-title {
             text-align: center;
             font-size: 2rem;
             font-weight: 800;
             color: var(--navy);
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* PROBLÈME */
+        .problem {
+            padding: 6rem 2rem;
+            background: var(--white);
         }
         .pain-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
         .pain-card {
-            background: var(--light-gray);
-            border-radius: 12px;
+            background: #fef2f2;
+            border-radius: 14px;
             padding: 2rem;
-            border-left: 4px solid #ef4444;
+            border-left: 4px solid var(--red);
         }
-        .pain-card .icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
-        .pain-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--navy); }
-        .pain-card p { font-size: 0.95rem; color: var(--gray); }
+        .pain-card .icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
+        .pain-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--navy); }
+        .pain-card p { font-size: 0.93rem; color: var(--gray); }
+        .pain-card .stat {
+            display: inline-block;
+            background: rgba(239,68,68,0.1);
+            color: var(--red);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+        }
 
-        /* SOLUTION */
-        .solution {
-            padding: 5rem 2rem;
-            background: var(--light-blue);
+        /* COMPARAISON AVANT/APRÈS */
+        .compare {
+            padding: 6rem 2rem;
+            background: var(--light-gray);
         }
-        .solution-grid {
+        .compare-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .compare-col {
+            border-radius: 14px;
+            padding: 2rem;
+        }
+        .compare-col.before {
+            background: #fef2f2;
+            border: 2px solid rgba(239,68,68,0.2);
+        }
+        .compare-col.after {
+            background: #f0fdf4;
+            border: 2px solid rgba(34,197,94,0.2);
+        }
+        .compare-col h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .compare-col.before h3 { color: var(--red); }
+        .compare-col.after h3 { color: var(--green); }
+        .compare-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+        }
+        .compare-item:last-child { border-bottom: none; }
+        .compare-item .label { color: var(--gray); }
+        .compare-item .value { font-weight: 700; color: var(--navy); }
+
+        /* SOLUTION PIPELINE */
+        .solution {
+            padding: 6rem 2rem;
+            background: var(--white);
+        }
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
         }
-        .solution-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .pipe-step {
+            background: var(--light-blue);
+            border-radius: 14px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
         }
-        .solution-card .icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
-        .solution-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--navy); }
-        .solution-card p { font-size: 0.95rem; color: var(--gray); }
+        .pipe-step::after {
+            content: '→';
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .pipe-step:last-child::after { display: none; }
+        .pipe-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .pipe-step h3 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
+        .pipe-step p { font-size: 0.85rem; color: var(--gray); }
+        .pipe-step .tech {
+            display: inline-block;
+            background: rgba(59,130,246,0.1);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+
+        /* WORKFLOWS */
+        .workflows {
+            padding: 6rem 2rem;
+            background: var(--light-gray);
+        }
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .workflow-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .workflow-card img {
+            width: 100%;
+            display: block;
+        }
+        .workflow-card .caption {
+            padding: 1.2rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        .workflow-card .caption strong { color: var(--navy); }
+
+        /* RÉSULTAT PROPALE */
+        .result {
+            padding: 6rem 2rem;
+            background: var(--white);
+            text-align: center;
+        }
+        .propale-preview {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--light-gray);
+            border-radius: 14px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .propale-preview h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        .propale-features {
+            text-align: left;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+        .propale-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        .propale-feature .check { color: var(--green); font-weight: 700; flex-shrink: 0; }
+        .propale-cta {
+            margin-top: 1.5rem;
+        }
+        .propale-cta a {
+            display: inline-block;
+            background: var(--navy);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .propale-cta a:hover { background: var(--blue); }
 
         /* OFFRE */
         .offer {
-            padding: 5rem 2rem;
-            background: var(--white);
+            padding: 6rem 2rem;
+            background: var(--light-blue);
             text-align: center;
         }
         .offer-box {
             max-width: 550px;
             margin: 0 auto;
             background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 3rem;
             color: white;
             position: relative;
             overflow: hidden;
         }
+        .offer-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+        }
         .offer-badge {
             display: inline-block;
-            background: rgba(74,155,190,0.3);
-            color: var(--accent);
+            background: rgba(59,130,246,0.2);
+            color: var(--accent-light);
             padding: 0.3rem 1rem;
             border-radius: 50px;
             font-size: 0.8rem;
@@ -188,84 +413,107 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 1.5rem;
+            position: relative;
         }
         .offer-box h3 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .offer-box .offer-desc {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
         .price {
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             font-weight: 800;
-            margin: 1rem 0 0.2rem;
+            position: relative;
         }
         .price-sub {
             font-size: 1rem;
             opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-        .price-original {
-            text-decoration: line-through;
-            opacity: 0.5;
-            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            position: relative;
         }
         .price-maintenance {
-            font-size: 1rem;
-            opacity: 0.8;
+            font-size: 0.95rem;
+            opacity: 0.7;
             margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .offer-includes {
+            text-align: left;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        .offer-includes li {
+            list-style: none;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .offer-includes li::before {
+            content: '✓';
+            color: var(--accent-light);
+            font-weight: 700;
         }
         .guarantee {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
             border-radius: 10px;
             padding: 1rem;
             margin: 1.5rem 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            position: relative;
         }
-        .guarantee strong { color: var(--accent); }
+        .guarantee strong { color: var(--accent-light); }
         .offer-box .cta-button {
             background: white;
             color: var(--navy);
             width: 100%;
             display: block;
             margin-top: 1.5rem;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .offer-box .cta-button:hover {
             background: var(--light-blue);
         }
 
-        /* COMMENT ÇA MARCHE */
-        .how {
-            padding: 5rem 2rem;
-            background: var(--light-gray);
+        /* FAQ */
+        .faq {
+            padding: 6rem 2rem;
+            background: var(--white);
         }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
+        .faq-grid {
+            max-width: 700px;
+            margin: 0 auto;
         }
-        .step-num {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: var(--accent);
-            color: white;
-            border-radius: 50%;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
+        .faq-item {
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 1.5rem 0;
         }
-        .step h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
-        .step p { font-size: 0.9rem; color: var(--gray); }
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        .faq-item p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
 
         /* FOOTER */
         footer {
             padding: 3rem 2rem;
             background: var(--navy);
             text-align: center;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.5);
             font-size: 0.85rem;
         }
         footer img { height: 28px; margin-bottom: 1rem; filter: brightness(2); }
@@ -273,11 +521,17 @@
         /* RESPONSIVE */
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1rem; }
-            nav img { height: 28px; }
-            nav a { padding: 0.5rem 1rem; font-size: 0.8rem; }
+            .nav-logo img { height: 26px; }
+            .nav-logo span { font-size: 0.95rem; }
+            nav a.nav-cta { padding: 0.5rem 1rem; font-size: 0.8rem; }
             .hero { padding: 7rem 1.5rem 3rem; }
-            .offer-box { padding: 2rem; }
-            .price { font-size: 2.8rem; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-stat .num { font-size: 1.8rem; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .pipe-step::after { display: none; }
+            .offer-box { padding: 2rem 1.5rem; }
+            .price { font-size: 2.6rem; }
+            .propale-features { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -285,93 +539,163 @@
 
     <!-- NAV -->
     <nav>
-        <img src="logo.png" alt="HorizAI">
-        <a href="https://calendly.com/flavien-jaunatre-horizai/30min">Réserver un appel</a>
+        <a href="#" class="nav-logo">
+            <img src="logo.png" alt="HorizAI">
+            <span>HorizAI</span>
+        </a>
+        <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="nav-cta">Réserver un appel</a>
     </nav>
 
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <div class="badge">🚀 5 places disponibles — Offre de lancement</div>
-            <h1>Votre support client e-commerce, <span>automatisé par l'IA</span></h1>
-            <p>Réponse instantanée 24h/24, 7j/7 à tous vos clients. Satisfaction supérieure à un humain — ou vous ne payez rien.</p>
-            <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="cta-button">Réserver un appel de 15 min</a>
-            <span class="cta-sub">Gratuit · Sans engagement · On vous montre une démo en live</span>
+            <div class="badge">🚀 Automatisation sur mesure par IA</div>
+            <h1>Vos propositions commerciales,<br><span>générées par l'IA en 45 minutes</span></h1>
+            <p>Vous passez 3 à 5 heures par propale. Vos concurrents répondent plus vite. Notre IA génère des propositions personnalisées, prêtes à envoyer — intégrées à vos outils.</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="num">÷5</div>
+                    <div class="label">Temps de production</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num">24h</div>
+                    <div class="label">Délai d'envoi max</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num">+15pts</div>
+                    <div class="label">Taux de conversion</div>
+                </div>
+            </div>
+            <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="cta-button">Voir une démo en 15 min</a>
+            <span class="cta-sub">Gratuit · Sans engagement · On vous montre le résultat sur vos propres données</span>
         </div>
     </section>
 
     <!-- PROBLÈME -->
     <section class="problem">
         <div class="container">
-            <h2 class="section-title">Le support client vous coûte cher</h2>
+            <h2 class="section-title">Le problème que personne ne chiffre</h2>
+            <p class="section-sub">La rédaction de propales est le goulot d'étranglement invisible de votre croissance commerciale.</p>
             <div class="pain-grid">
                 <div class="pain-card">
-                    <div class="icon">🌙</div>
-                    <h3>Ventes perdues la nuit et le weekend</h3>
-                    <p>Vos clients posent des questions à 23h. Personne ne répond. Ils achètent ailleurs.</p>
+                    <div class="icon">⏳</div>
+                    <h3>3 à 5 heures par proposition</h3>
+                    <p>Copier-coller, reformuler, personnaliser, mettre en page, relire. À chaque prospect, le même cycle chronophage.</p>
+                    <span class="stat">~48h/mois englouties</span>
                 </div>
                 <div class="pain-card">
-                    <div class="icon">⏳</div>
-                    <h3>Des heures perdues chaque jour</h3>
-                    <p>Vous ou votre équipe passez des heures à répondre aux mêmes questions : livraison, tailles, retours...</p>
+                    <div class="icon">🐌</div>
+                    <h3>5 jours de délai = prospects perdus</h3>
+                    <p>Le prospect a contacté 3 concurrents. Celui qui répond en 24h signe. Celui qui met 5 jours perd le deal.</p>
+                    <span class="stat">+15 pts de conversion si envoi &lt; 48h</span>
                 </div>
                 <div class="pain-card">
                     <div class="icon">💸</div>
-                    <h3>Un employé coûte 1 500€/mois minimum</h3>
-                    <p>Et il ne travaille que 8h/jour, fait des erreurs, part en vacances. L'IA ne dort jamais.</p>
+                    <h3>Du CA qui reste sur la table</h3>
+                    <p>Chaque propale en retard, c'est un projet perdu. Pas par manque de compétence — par manque de process.</p>
+                    <span class="stat">Des milliers d'€ de manque à gagner</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SOLUTION -->
+    <!-- AVANT / APRÈS -->
+    <section class="compare">
+        <div class="container">
+            <h2 class="section-title">Avant / Après HorizAI</h2>
+            <p class="section-sub">Le même travail. Une fraction du temps.</p>
+            <div class="compare-grid">
+                <div class="compare-col before">
+                    <h3>❌ Aujourd'hui</h3>
+                    <div class="compare-item"><span class="label">Temps par propale</span><span class="value">3 à 5 heures</span></div>
+                    <div class="compare-item"><span class="label">Délai d'envoi</span><span class="value">5 jours</span></div>
+                    <div class="compare-item"><span class="label">Taux de conversion</span><span class="value">~35%</span></div>
+                    <div class="compare-item"><span class="label">Personnalisation</span><span class="value">Variable</span></div>
+                    <div class="compare-item"><span class="label">Mise en page</span><span class="value">Manuelle</span></div>
+                </div>
+                <div class="compare-col after">
+                    <h3>✅ Avec HorizAI</h3>
+                    <div class="compare-item"><span class="label">Temps par propale</span><span class="value">&lt; 1 heure</span></div>
+                    <div class="compare-item"><span class="label">Délai d'envoi</span><span class="value">24 à 48h</span></div>
+                    <div class="compare-item"><span class="label">Taux de conversion</span><span class="value">~50%</span></div>
+                    <div class="compare-item"><span class="label">Personnalisation</span><span class="value">Systématique</span></div>
+                    <div class="compare-item"><span class="label">Mise en page</span><span class="value">Automatique</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTION PIPELINE -->
     <section class="solution">
         <div class="container">
-            <h2 class="section-title">Ce que notre agent IA fait pour vous</h2>
-            <div class="solution-grid">
-                <div class="solution-card">
-                    <div class="icon">⚡</div>
-                    <h3>Réponse instantanée 24/7</h3>
-                    <p>Chaque message client reçoit une réponse en moins de 30 secondes, jour et nuit, weekends et jours fériés.</p>
+            <h2 class="section-title">Comment ça marche</h2>
+            <p class="section-sub">Une chaîne automatisée, de l'appel découverte à l'envoi du PDF. Vous gardez le contrôle à chaque étape.</p>
+            <div class="pipeline">
+                <div class="pipe-step">
+                    <div class="pipe-num">1</div>
+                    <h3>Brief ou transcript</h3>
+                    <p>Saisissez les infos clés ou collez le transcript de l'appel. L'IA extrait l'essentiel.</p>
+                    <span class="tech">Notion · Formulaire web</span>
                 </div>
-                <div class="solution-card">
-                    <div class="icon">🎯</div>
-                    <h3>Connaît vos produits sur le bout des doigts</h3>
-                    <p>L'agent est entraîné sur votre catalogue, vos politiques de retour, vos FAQ. Il répond comme votre meilleur employé.</p>
+                <div class="pipe-step">
+                    <div class="pipe-num">2</div>
+                    <h3>Génération IA</h3>
+                    <p>Propale complète générée : contexte, diagnostic, solution, budget, planning.</p>
+                    <span class="tech">GPT-4.1 · Claude Opus</span>
                 </div>
-                <div class="solution-card">
-                    <div class="icon">📈</div>
-                    <h3>Augmente vos ventes</h3>
-                    <p>Un client qui reçoit une réponse immédiate a 3x plus de chances de passer commande. Plus de ventes perdues.</p>
+                <div class="pipe-step">
+                    <div class="pipe-num">3</div>
+                    <h3>Relecture & ajustement</h3>
+                    <p>Vous relisez, modifiez un prix ou un paragraphe. En clics, pas en heures.</p>
+                    <span class="tech">Interface de validation</span>
+                </div>
+                <div class="pipe-step">
+                    <div class="pipe-num">4</div>
+                    <h3>PDF & envoi</h3>
+                    <p>Mise en page automatique à votre charte, export PDF, brouillon email prêt.</p>
+                    <span class="tech">Gotenberg · Gmail</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMMENT ÇA MARCHE -->
-    <section class="how">
+    <!-- WORKFLOWS -->
+    <section class="workflows">
         <div class="container">
-            <h2 class="section-title">Comment ça marche</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-num">1</div>
-                    <h3>On se parle 15 min</h3>
-                    <p>On comprend votre boutique, vos produits, vos questions fréquentes.</p>
+            <h2 class="section-title">L'automatisation sous le capot</h2>
+            <p class="section-sub">Pas de boîte noire. Voici les workflows réels qui font tourner le système.</p>
+            <div class="workflow-grid">
+                <div class="workflow-card">
+                    <img src="workflow-1.png" alt="Workflows n8n — Compte-rendu d'appel et génération de propale" loading="lazy">
+                    <div class="caption"><strong>Workflow 1 & 2 :</strong> Compte-rendu d'appel automatique (GPT-4.1 → Notion) puis génération de la propale complète via chaîne multi-modèles (plan → devis → rédaction).</div>
                 </div>
-                <div class="step">
-                    <div class="step-num">2</div>
-                    <h3>On configure votre agent</h3>
-                    <p>En 48-72h, votre agent IA est prêt, entraîné sur vos données.</p>
+                <div class="workflow-card">
+                    <img src="workflow-2.png" alt="Workflows n8n — Génération PDF et email" loading="lazy">
+                    <div class="caption"><strong>Workflow 3 & 4 :</strong> Génération du PDF final à votre charte graphique (Gotenberg) puis rédaction et préparation du brouillon email dans Gmail.</div>
                 </div>
-                <div class="step">
-                    <div class="step-num">3</div>
-                    <h3>On l'installe sur votre boutique</h3>
-                    <p>Intégration directe sur Shopify. Vous ne touchez à rien.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RÉSULTAT -->
+    <section class="result">
+        <div class="container">
+            <h2 class="section-title">Le résultat : une propale pro en 45 minutes</h2>
+            <p class="section-sub">Chaque document est personnalisé au contexte du prospect — pas un template générique.</p>
+            <div class="propale-preview">
+                <h3>📄 Ce que contient chaque propale générée</h3>
+                <div class="propale-features">
+                    <div class="propale-feature"><span class="check">✓</span> Contexte et enjeux du prospect</div>
+                    <div class="propale-feature"><span class="check">✓</span> Diagnostic chiffré de la situation</div>
+                    <div class="propale-feature"><span class="check">✓</span> Solution détaillée et adaptée</div>
+                    <div class="propale-feature"><span class="check">✓</span> Estimation budgétaire précise</div>
+                    <div class="propale-feature"><span class="check">✓</span> Planning prévisionnel</div>
+                    <div class="propale-feature"><span class="check">✓</span> Mise en page à votre charte</div>
+                    <div class="propale-feature"><span class="check">✓</span> Export PDF professionnel</div>
+                    <div class="propale-feature"><span class="check">✓</span> Email d'accompagnement rédigé</div>
                 </div>
-                <div class="step">
-                    <div class="step-num">4</div>
-                    <h3>Vos clients sont ravis</h3>
-                    <p>Support instantané, satisfaction en hausse, vous gagnez du temps.</p>
+                <div class="propale-cta">
+                    <a href="propale-exemple.pdf" target="_blank">Voir un exemple de propale →</a>
                 </div>
             </div>
         </div>
@@ -380,26 +704,72 @@
     <!-- OFFRE -->
     <section class="offer">
         <div class="container">
-            <h2 class="section-title">Offre de lancement</h2>
+            <h2 class="section-title">Investissement</h2>
             <div class="offer-box">
-                <div class="offer-badge">⚡ 5 premiers clients uniquement</div>
-                <h3>Agent IA Support Client</h3>
-                <div class="price-original">1 500 €</div>
-                <div class="price">500 €</div>
-                <div class="price-sub">Installation unique</div>
-                <div class="price-maintenance">+ 97 €/mois de maintenance</div>
+                <div class="offer-badge">⚡ Offre de lancement</div>
+                <h3>Automatisation Propales sur mesure</h3>
+                <p class="offer-desc">Configuration complète, entraînée sur vos offres, intégrée à vos outils.</p>
+                <div class="price">1 500 €</div>
+                <div class="price-sub">Installation et configuration</div>
+                <div class="price-maintenance">+ 150 €/mois · maintenance & évolutions</div>
+                <ul class="offer-includes">
+                    <li>Audit de votre process commercial actuel</li>
+                    <li>Configuration IA calibrée sur vos offres</li>
+                    <li>Intégration Notion + Google Docs + Gmail</li>
+                    <li>Génération PDF à votre charte graphique</li>
+                    <li>Formation de votre équipe (1h)</li>
+                    <li>Support prioritaire</li>
+                </ul>
                 <div class="guarantee">
-                    <strong>🛡️ Garantie zéro risque :</strong> Si l'agent IA n'est pas meilleur que votre support actuel, vous ne payez rien. Point final.
+                    <strong>🛡️ Garantie résultat :</strong> Si la solution ne divise pas par 3 votre temps de production de propales, vous ne payez rien.
                 </div>
-                <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="cta-button">Réserver mon appel gratuit →</a>
+                <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="cta-button">Réserver ma démo gratuite →</a>
             </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Questions fréquentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>Est-ce que l'IA va remplacer mon équipe commerciale ?</h3>
+                    <p>Non. L'IA fait le travail de rédaction et de mise en page. Votre équipe garde le contrôle total sur le contenu, les prix et la validation. Elle gagne du temps pour se concentrer sur la relation client.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Comment l'IA connaît mes offres et mon ton ?</h3>
+                    <p>On entraîne le système sur vos documents existants : propales passées, grilles tarifaires, catalogue de services. Le résultat ressemble à ce que vous écririez — en beaucoup moins de temps.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Quels outils faut-il utiliser ?</h3>
+                    <p>On s'intègre dans votre stack existante : Notion, Google Docs, Gmail. Aucun nouvel outil à apprendre, aucune migration.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Combien de temps pour la mise en place ?</h3>
+                    <p>Entre 1 et 2 semaines, selon la complexité de vos offres. Vous êtes opérationnel rapidement.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Mes données sont-elles protégées ?</h3>
+                    <p>Oui. Hébergement et traitement conformes RGPD. Vos données ne sont jamais partagées ni utilisées pour entraîner des modèles tiers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="offer" style="background: var(--white);">
+        <div class="container" style="max-width: 600px; text-align: center;">
+            <h2 class="section-title">Prêt à scaler votre process commercial ?</h2>
+            <p class="section-sub">15 minutes d'appel. On vous montre le résultat sur vos propres données.</p>
+            <a href="https://calendly.com/flavien-jaunatre-horizai/30min" class="cta-button">Réserver mon appel gratuit →</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <img src="logo.png" alt="HorizAI"><br>
-        <p>© 2026 HorizAI — Solutions d'automatisation IA pour e-commerce</p>
+        <p>© 2026 HorizAI — Automatisation intelligente pour agences et PME</p>
     </footer>
 
 </body>
